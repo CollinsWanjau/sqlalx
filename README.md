@@ -22,6 +22,21 @@ without the change that the earlier operation had made.
 ->Unplug your server at anytime, book it back up, and it didn't loose
 any data
 
+## Why are they called "relational" databases?
+
+* A relation as used today is something that ties two records together,most
+often across different tables.For example, say you have a blog and you have
+2 tables:
+-> posts, with the fields id, title and body
+-> comments, with the fields id and body
+
+* In both tables, the "id" fields are <b>primary keys</b>, because they
+uniquely identify the row that they belong to.
+
+* Once you have a relation you can do advanced things like:
+-> Join tables together while querying them, which will allow you to search
+for "the comments whose posts were published within the last month"
+
 ## Some more terminology around relational databases
 
 1. Indexes
@@ -311,3 +326,30 @@ WHERE cFirstName = 'Wayne' AND cLastName = 'Dick'
 
 * Syntantically, all we have to do is to enclose the subquery in parentheses
 in the same place we will use  a constant in the WHERE clause
+
+## What makes the big difference between a backtick and an apostrophe
+
+```
+SELECT COUNT(DISTINCT(`price`)) FROM `products`; -> Good
+
+SELECT COUNT(DISTINCT('price')); -> Bad
+```
+
+* 'price' is a string.It never changes so the count is always 1.
+
+* `price` refers to the column `price`.
+
+* The inner parentheses are irrelevant.`COUNT(DISTINCT price)`.
+
+-> `SELECT COUNT(*) FROM tbl WHERE ...`: a common way to ask how many rows.
+
+-> `SELECT foo, COUNT(*) FROM tbl GROUP BY foo`: a common way to ask how
+many rows for each distinct value of `foo`.
+
+->`SELECT foo, COUNT(foo) FROM tbl GROUP BY foo`: is the same above except
+that it does not count rows where `foo IS NULL`
+
+-> `SELECT DISTINCT ... GROUP BY ...`: is nonsense statement.Either use
+DISTINCT or use GROUP BY.
+
+
