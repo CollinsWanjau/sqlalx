@@ -352,4 +352,59 @@ that it does not count rows where `foo IS NULL`
 -> `SELECT DISTINCT ... GROUP BY ...`: is nonsense statement.Either use
 DISTINCT or use GROUP BY.
 
+# SQL Injection
+
+* <b>SQL Injection</b> Is a code injection technique used to attack
+data driven apps, in which malicious SQL statements are inserted
+into an entry field for execution (e.g. dump db contents to
+the attacker).
+
+## Form
+
+There are four main sub-classes of SQL injection:
+
+* Classic SQLI
+* BLind or Inference SQL injection
+* Database Management System - specific SQLI
+* Compunded SQLI
+1. SQl innjection + insufficient authentiaction
+2. SQL injection + DDOS attacks
+3. SQL injection + DNS hijacking
+4. SQL injection + XSS
+
+## Technical Implementations
+
+### Incorrectly Constructed SQL statements
+
+* This form of injection relies on the fact that SQL statements
+consist of both data used by the SQL statement and commands that
+control how the SQL statement is executed.
+
+* SQL injection occurs when specially crafted user input is processed
+by the receiving program in a way that allows the input to exit a
+data context and enter a command context.This allows the attacker
+to alter the structure of the SQL statement which is executed.
+
+```
+select * from person where name = 'susan' and age = 2
+```
+
+```
+select * from person where name='' or 1=1; -- and age = 2
+```
+
+### Conditional Responses
+
+So the URL `https://books.example.com/review?id=5` would cause the
+server to run the query.
+
+```
+SELECT * FROM bookreviews WHERE ID = '5';
+```
+* A hacker can load the URLSs:
+```
+SELECT * FROM bookreviews WHERE ID = '5' OR '1'='1';
+SELECT * FROM bookreviews WHERE ID = '5' AND '1'='2';
+```
+
 
