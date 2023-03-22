@@ -407,4 +407,64 @@ SELECT * FROM bookreviews WHERE ID = '5' OR '1'='1';
 SELECT * FROM bookreviews WHERE ID = '5' AND '1'='2';
 ```
 
+#### Viewing table INFORMATION SCHEMA
 
+```
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = DATABASE();
+```
+
+# SQLAlchemy
+
+* The SQLa ORM presents a methos of associating user-defined Python classes
+with db tables, and instances of those classes (objects) with rows in their
+corresponding tables.
+
+### Connecting
+
+```
+from sqlalchemy import create_engine
+engine = create_engine('sqlite:///:memory:', echo=True)
+```
+
+* The echo flag is a shhortcut to setting up SQLAlchemy logging, which is
+accomplished via Python's standard logging module.
+
+* The return value of `create_engine()` is an instance of engine, and it
+represents the core interface to the db, adapted thru' a dialect that
+handles the details and DBAPI in use.
+
+* In this case the SQLite dialect will interpret instructions to the Python
+built-in sqlite3 module.
+
+##### Lazy Connecting
+
+* The `Engine`, when first returned by `create_engine()`, has not actually
+tried to connect to the db yet; that happens the first time it is asked
+to perform task against the db.
+
+### Declare a Mapping
+
+* When using the ORM, the configurational process starts by describing the
+db tables we'll be dealing with, and then by defining our own classes which
+will be mapped to those tables.
+
+* These tasks are usually perfomed together, using a system known as
+`Declarative`, which allows us to create classes that include directives
+to describe the actual db table they will be mapped to.
+
+* Classes mapped using the Declarative system are defined in terms of a
+base class which maintains a catalog and tables relative to that base - this
+is known as the `declarative base class`
+
+### Instrumentation
+
+* This refers to the process of augementing the functionality and attribute
+set of a particular class.
+
+### Create a Schema
+
+* Table metadata is the object used by SQLa to repr this info. for
+a specific table is called the table object, and here Declarative has made
+one for us.
