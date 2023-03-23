@@ -438,6 +438,12 @@ handles the details and DBAPI in use.
 * In this case the SQLite dialect will interpret instructions to the Python
 built-in sqlite3 module.
 
+#### Database URLS
+
+* The `create_engine` function produces an Engine object based on a URL.
+This urls usually include username, password, hostname, database name
+as well as optional kwargs.
+
 ##### Lazy Connecting
 
 * The `Engine`, when first returned by `create_engine()`, has not actually
@@ -458,13 +464,22 @@ to describe the actual db table they will be mapped to.
 base class which maintains a catalog and tables relative to that base - this
 is known as the `declarative base class`
 
+* A class using Declarative at a minimum needs a __tablename__ attribute,
+and atleast one `Column` which is a Primary key.
+
 ### Instrumentation
 
 * This refers to the process of augementing the functionality and attribute
 set of a particular class.
+
+* Instrumentation also includes the creation of a mapper object, which maps
+the class to a db table.The mapper defines how the attributes of the class
+are mapped to columns in the table, and provides methods for querying and
+modifying the table.
 
 ### Create a Schema
 
 * Table metadata is the object used by SQLa to repr this info. for
 a specific table is called the table object, and here Declarative has made
 one for us.
+
